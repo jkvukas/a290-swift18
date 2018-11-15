@@ -9,61 +9,93 @@
 import Foundation
 
 class BinModel {
-    var firstOperand: Int!
-    var secondOperand: Int!
+    var firstOperand: String!
+    var secondOperand: String!
     var operation: String!
+    var memoryValue: Int
     
     init() {
-        firstOperand = 0
-        secondOperand = 0
+        firstOperand = ""
+        secondOperand = ""
         operation = ""
+        memoryValue = 0
     }
     
     func setFirstOperand(ip: String) {
-        let x = Int(ip)
-        firstOperand = x
+        //let x = Int(ip)
+        firstOperand = ip
     }
     
     func setSecondOperand(ip: String) {
-        let x = Int(ip)
-        secondOperand = x
+        //let x = Int(ip)
+        secondOperand = ip
     }
     
     func setOperation(ip: String) {
         operation = ip
     }
     
-    func eq() -> String {
+    //func setMemoryValue(ip: String) {
+        //memoryValue = ip
+    //}
+    
+    func performOperation() -> String {
         var op: String!
         if (operation == "") {
-            op = firstOperand.binaryString
+            return ""
         }
         if (operation == "+") {
-            op = (firstOperand.binaryString.binaryToInt+secondOperand.binaryString.binaryToInt).binaryString
+            let ap = firstOperand.binaryToInt
+            let bp = secondOperand.binaryToInt
+            return "0" + String(ap + bp, radix: 2)
         }
         if (operation == "-") {
-            op = (firstOperand.binaryString.binaryToInt - secondOperand.binaryString.binaryToInt).binaryString
+            let ap = firstOperand.binaryToInt
+            let bp = secondOperand.binaryToInt
+            return String(ap - bp, radix: 2)
+        }
+        if (operation == "*") {
+            let ap = firstOperand.binaryToInt
+            let bp = secondOperand.binaryToInt
+            return "0" + String(ap * bp, radix: 2)
+        }
+        if (operation == "/") {
+            let ap = Int(firstOperand, radix: 2)!
+            let bp = Int(secondOperand, radix: 2)!
+            op = "0" + String(ap/bp, radix: 2)
+        }
+        if (operation == "+/-") {
+            return ((firstOperand.binaryToInt) * -1).binaryStr
+        }
+        if (operation == "MC") {
+            memoryValue = 0
+            return String(memoryValue, radix: 2)
+        }
+        if (operation == "MR") {
+            return String(memoryValue, radix: 2)
+        }
+        if (operation == "M+") {
+            let ap = firstOperand.binaryToInt
+            memoryValue += ap
+            return String(memoryValue, radix: 2)
+            
+        }
+        if (operation == "M-") {
+            let ap = firstOperand.binaryToInt
+            memoryValue -= ap
+            return String(memoryValue, radix: 2)
         }
         return op
     }
 }
 
 extension String {
-    var hexaToInt       : Int    { return Int(strtoul(self, nil, 16)) }
-    var hexaToDouble    : Double { return Double(strtoul(self, nil, 16)) }
-    var hexaToBinary    : String { return String(hexaToInt, radix: 2) }
-    var decimalToHexa   : String { return String(Int(self) ?? 0, radix: 1) }
-    var decimalToBinary : String { return String(Int(self) ?? 0, radix: 2) }
     var binaryToInt     : Int    { return Int(strtoul(self, nil, 2)) }
-    var binaryToDouble  : Double { return Double(strtoul(self, nil, 2)) }
-    var binaryToHexa    : String { return String(binaryToInt, radix: 16) }
     
 }
 
 extension Int {
-    var binaryString    : String { return String(self, radix: 2) }
-    var hexaString      : String { return String(self, radix: 16)}
-    var doubleValue     : Double { return Double(self)}
+    var binaryStr    : String { return String(self, radix: 2) }
 }
 
 
