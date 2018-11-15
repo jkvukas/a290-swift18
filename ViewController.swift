@@ -17,6 +17,14 @@ class ViewController: UIViewController {
     @IBOutlet var buttonMinus: UIButton!
     @IBOutlet var buttonAC: UIButton!
     @IBOutlet var textLog: UITextView!
+    @IBOutlet var buttonMult: UIButton!
+    @IBOutlet var buttonDiv: UIButton!
+    @IBOutlet var buttonInvert: UIButton!
+    @IBOutlet var buttonMC: UIButton!
+    @IBOutlet var buttonMR: UIButton!
+    @IBOutlet var buttonMPlus: UIButton!
+    @IBOutlet var buttonMMinus: UIButton!
+    
     
     var numberIsBeingEntered = false
     
@@ -38,34 +46,74 @@ class ViewController: UIViewController {
         
     }
     
-    @IBAction func anOperationIsPressed(_ sender: Any) {
-        if (sender as! UIButton) == buttonAC {
-            theModel.setFirstOperand(ip: "0")
-            theModel.setSecondOperand(ip: "0")
+    @IBAction func anOperationIsPressed(_ sender: UIButton) {
+        if (sender.tag == 3) { //clear
+            //theModel.setFirstOperand(ip: "0")
+            //theModel.setSecondOperand(ip: "0")
             theModel.setOperation(ip: "")
-            display.text! = String(theModel.firstOperand!)
+            display.text! = String(theModel.performOperation())
             textLog.text! = ""
         }
-        if (sender as! UIButton) == buttonPlus {
+        if (sender.tag == 4) { //plus
             theModel.setOperation(ip: "+")
             theModel.setFirstOperand(ip: display.text!)
-            display.text! = "0"
+            display.text! = ""
             textLog.text! += "\(theModel.firstOperand)\n"
             textLog.text! += "\(theModel.operation)\n"
         }
-        if (sender as! UIButton) == buttonMinus {
+        if (sender.tag == 5) { //minus
             theModel.setOperation(ip: "-")
             theModel.setFirstOperand(ip: display.text!)
-            display.text! = "0"
+            display.text! = ""
             textLog.text! += "\(theModel.firstOperand)\n"
             textLog.text! += "\(theModel.operation)\n"
         }
-        if (sender as! UIButton) == buttonEqual {
+        if (sender.tag == 9) { //equal
             theModel.setSecondOperand(ip: display.text!)
-            display.text! = theModel.eq()
+            display.text! = theModel.performOperation()
             textLog.text! += "\(theModel.secondOperand)\n"
             textLog.text! += "=\n"
-            textLog.text! += "\(theModel.eq())\n"
+            textLog.text! += "\(theModel.performOperation())\n"
+        }
+        if (sender.tag == 6) { //multiply
+            theModel.setOperation(ip: "*")
+            theModel.setFirstOperand(ip: display.text!)
+            display.text! = ""
+            textLog.text! += "\(theModel.firstOperand)\n"
+            textLog.text! += "\(theModel.operation)\n"
+        }
+        if (sender.tag == 7) { //divide
+            theModel.setOperation(ip: "/")
+            theModel.setFirstOperand(ip: display.text!)
+            display.text! = ""
+            textLog.text! += "\(theModel.firstOperand)\n"
+            textLog.text! += "\(theModel.operation)\n"
+        }
+        if (sender.tag == 8) { //invert
+            theModel.setOperation(ip: "+/-")
+            //display.text! = theModel.operation
+            theModel.setFirstOperand(ip: display.text!)
+            display.text! = theModel.performOperation()
+            textLog.text! += "\(theModel.firstOperand)\n"
+            textLog.text! += "\(theModel.operation)\n"
+        }
+        if (sender.tag == 10) { //Memory Clear
+            theModel.setOperation(ip: "MC")
+            display.text! = theModel.performOperation()
+        }
+        if (sender.tag == 11) { //Memory Recall
+            theModel.setOperation(ip: "MR")
+            display.text! = theModel.performOperation()
+        }
+        if (sender.tag == 12) { //Memory Add
+            theModel.setOperation(ip: "M+")
+            theModel.setFirstOperand(ip: display.text!)
+            display.text! = theModel.performOperation()
+        }
+        if (sender.tag == 13) { //Memory Subtract
+            theModel.setOperation(ip: "M-")
+            theModel.setFirstOperand(ip: display.text!)
+            display.text! = theModel.performOperation()
         }
         print("in the function anOperationIsPressed(), sender is: \(sender)")
         debuggingLabel.text = "digit"
